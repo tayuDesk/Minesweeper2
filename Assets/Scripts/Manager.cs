@@ -6,6 +6,7 @@ public class Manager : MonoBehaviour
 {
 
     public bool ClikedFIrst = false;
+    public bool GameIsOver = false;
 
     public int WIDTH = 10;
     public int HEIGHT = 10;
@@ -87,6 +88,8 @@ public class Manager : MonoBehaviour
                     GameObject.Find("ReStartButton").transform.position = new Vector3(1000, 455, 0);
                     GameObject.Find("ReturnButton").transform.position = new Vector3(1000, 600, 0);
 
+                    GameIsOver = true;
+
                 }
                 if (B_cs.TileNumber == 0 && !B_cs.IsOpend)
                 {
@@ -99,6 +102,8 @@ public class Manager : MonoBehaviour
             if (CountOpendBlockNum == WIDTH * HEIGHT - BOMB_NUM)
             {
                 GameClear();
+
+                GameIsOver = true;
             }
 
             /*
