@@ -17,8 +17,10 @@ public class Manager : MonoBehaviour
 
     public GameObject BlockPrefab;
 
+
     List<int> around = new List<int>();
     bool[] visited;
+    public int CountOpendBlockNum = 0;
 
     int[] dx = { 1, 1, 1, -1, -1, -1, 0, 0 };
     int[] dy = { 1, -1, 0, 1, -1, 0, 1, -1 };
@@ -67,25 +69,44 @@ public class Manager : MonoBehaviour
             {
                 GameObject tblock = hit2d.transform.gameObject;
                 var B_cs = tblock.GetComponent<Block>();
-                tblock.GetComponent<SpriteRenderer>().sprite = B_cs.tiles[B_cs.TileNumber];
-                B_cs.IsOpend = true;
+                
+
+
+
+                if (0 < B_cs.TileNumber && B_cs.TileNumber < 9 && !B_cs.IsOpend)
+                {
+                    Open(tblock);
+                }
+
+
+
                 if (B_cs.TileNumber == 9)
                 {
                     failed = true;
+                    tblock.GetComponent<SpriteRenderer>().sprite = B_cs.tiles[B_cs.TileNumber];
                     GameObject.Find("ReStartButton").transform.position = new Vector3(1000, 455, 0);
                     GameObject.Find("ReturnButton").transform.position = new Vector3(1000, 600, 0);
 
                 }
-                if (B_cs.TileNumber == 0)
+                if (B_cs.TileNumber == 0 && !B_cs.IsOpend)
                 {
                     int idx = hit2d.transform.gameObject.GetComponent<Block>().TileIndex;
+                    Open(tblock);
                     OpenAround(idx);
                 }
             }
+
+            if (CountOpendBlockNum == WIDTH * HEIGHT - BOMB_NUM)
+            {
+                GameClear();
+            }
+
+            /*
             if (CountOpenedBlock() == WIDTH * HEIGHT - BOMB_NUM)
             {
                 GameClear();
             }
+            */
         }
 
         if (Input.GetMouseButtonDown(1))
@@ -235,16 +256,22 @@ public class Manager : MonoBehaviour
             }
             GameObject tblock = GameObject.Find("Block" + (ny * WIDTH + nx).ToString());
             var B_cs = tblock.GetComponent<Block>();
-            if (0 < B_cs.TileNumber && B_cs.TileNumber < 9)
+
+
+            if (B_cs.IsOpend)
             {
-                Open(tblock);
+                continue;
             }
-            if (B_cs.TileNumber == 0 && !B_cs.IsOpend)
+
+            Open(tblock);
+
+
+            if (B_cs.TileNumber == 0)
             {
-                Open(tblock);
+                
                 OpenAround(ny * WIDTH + nx);
             }
-            B_cs.IsOpend = true;
+           
         }
     }
 
@@ -252,7 +279,8 @@ public class Manager : MonoBehaviour
     {
         var B_cs = tblock.GetComponent<Block>();
         tblock.GetComponent<SpriteRenderer>().sprite = B_cs.tiles[B_cs.TileNumber];
-        
+        B_cs.IsOpend = true;
+        CountOpendBlockNum++;
     }
 
     int CountOpenedBlock()
