@@ -5,7 +5,7 @@ using UnityEngine;
 public class Block : MonoBehaviour
 {
     public int TileIndex;
-    public int TileNumber = 0;
+    public int TileNumber = -1;
     public bool IsOpend = false;
     public Sprite NowImage;
 
@@ -26,11 +26,5 @@ public class Block : MonoBehaviour
     void Start()
     {
         tiles = new Sprite[] { tile0, tile1, tile2, tile3, tile4, tile5, tile6, tile7, tile8, tile9, tile10 };
-    }
-
-    
-    void Update()
-    {
-        
     }
 }

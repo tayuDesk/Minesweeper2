@@ -5,18 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class ReStartButton : MonoBehaviour
 {
-    
-    void Start()
-    {
-        
-    }
-
-    
-    void Update()
-    {
-        
-    }
-
     public void OnClick()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);

@@ -16,9 +16,9 @@ public class Manager : MonoBehaviour
 
 
     public GameObject BlockPrefab;
-    
 
-    
+    List<int> around = new List<int>();
+    bool[] visited;
 
     int[] dx = { 1, 1, 1, -1, -1, -1, 0, 0 };
     int[] dy = { 1, -1, 0, 1, -1, 0, 1, -1 };
@@ -27,6 +27,7 @@ public class Manager : MonoBehaviour
 
     void Start()
     {
+        visited = new bool[HEIGHT * WIDTH];
         Init_Stage();
         AssignIndexAndNameToBlock();
         
@@ -42,8 +43,6 @@ public class Manager : MonoBehaviour
 
             if (!ClikedFIrst && hit2d)
             {
-
-                
                
                 hit2d.transform.gameObject.GetComponent<Block>().TileNumber = 0;
                 int idx = hit2d.transform.gameObject.GetComponent<Block>().TileIndex;
@@ -64,19 +63,57 @@ public class Manager : MonoBehaviour
                 ClikedFIrst = true;
 
             }
-            if (hit2d && !failed)
+            if (hit2d && !failed && hit2d.transform.gameObject.GetComponent<Block>().TileNumber != 10)
             {
                 GameObject tblock = hit2d.transform.gameObject;
                 var B_cs = tblock.GetComponent<Block>();
                 tblock.GetComponent<SpriteRenderer>().sprite = B_cs.tiles[B_cs.TileNumber];
+                B_cs.IsOpend = true;
                 if (B_cs.TileNumber == 9)
                 {
                     failed = true;
                     GameObject.Find("ReStartButton").transform.position = new Vector3(245, 455, 0);
                 }
+                if (B_cs.TileNumber == 0)
+                {
+                    int idx = hit2d.transform.gameObject.GetComponent<Block>().TileIndex;
+                    OpenAround(idx);
+                }
+            }
+            if (CountOpenedBlock() == WIDTH * HEIGHT - BOMB_NUM)
+            {
+                GameClear();
+            }
+        }
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit2D hit2d = Physics2D.Raycast((Vector2)ray.origin, (Vector2)ray.direction);
+
+            var B_cs = hit2d.transform.gameObject.GetComponent<Block>();
+
+            if (B_cs.TileNumber < 100)
+            {
+                RaiseFlag(hit2d.transform.gameObject);
+            }
+            else
+            {
+                if (!B_cs.IsOpend)
+                {
+                    hit2d.transform.gameObject.GetComponent<SpriteRenderer>().sprite = B_cs.NowImage;
+                    B_cs.TileNumber -= 100;
+                }
+                else
+                {
+                    B_cs.TileNumber -= 100;
+                    hit2d.transform.gameObject.GetComponent<SpriteRenderer>().sprite = B_cs.tiles[B_cs.TileNumber];
+                }
             }
         }
     }
+
+
 
     void Init_Stage()
     {
@@ -97,7 +134,7 @@ public class Manager : MonoBehaviour
         List<int> tls = new List<int>();
         for (int i = 0; i < WIDTH * HEIGHT; i++)
         {
-            if (i == idx)
+            if (i == idx || AroundIdx(idx, i))
             {
                 continue;
             }
@@ -160,7 +197,85 @@ public class Manager : MonoBehaviour
         }
     }
 
+    bool AroundIdx(int idx, int i)
+    {
+        List<int> koho = new List<int>();
+        for (int j = 0; j < 8; j++)
+        {
+            int nx = idx % WIDTH + dx[j];
+            int ny = idx / WIDTH + dy[j];
+            if (0 <= nx && nx < WIDTH && 0 <= ny && ny < HEIGHT)
+            {
+                koho.Add(ny * WIDTH + nx);
+            }
+        }
+        for (int j = 0; j < koho.Count; j++)
+        {
+            if (koho[j] == i)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
     
-    
-    
+    void OpenAround(int idx)
+    {
+        GameObject.Find("Block" + idx.ToString()).GetComponent<Block>().IsOpend = true;
+        for (int i = 0; i < 8; i++)
+        {
+
+            int nx = idx % WIDTH + dx[i];
+            int ny = idx / WIDTH + dy[i];
+            if (nx < 0 || WIDTH <= nx || ny < 0 || HEIGHT <= ny)
+            {
+                continue;
+            }
+            GameObject tblock = GameObject.Find("Block" + (ny * WIDTH + nx).ToString());
+            var B_cs = tblock.GetComponent<Block>();
+            if (0 < B_cs.TileNumber && B_cs.TileNumber < 9)
+            {
+                Open(tblock);
+            }
+            if (B_cs.TileNumber == 0 && !B_cs.IsOpend)
+            {
+                Open(tblock);
+                OpenAround(ny * WIDTH + nx);
+            }
+            B_cs.IsOpend = true;
+        }
+    }
+
+    void Open(GameObject tblock)
+    {
+        var B_cs = tblock.GetComponent<Block>();
+        tblock.GetComponent<SpriteRenderer>().sprite = B_cs.tiles[B_cs.TileNumber];
+        
+    }
+
+    int CountOpenedBlock()
+    {
+        int ret = 0;
+        for (int i = 0; i < WIDTH * HEIGHT; i++)
+        {
+            if (GameObject.Find("Block" + i.ToString()).GetComponent<Block>().IsOpend)
+            {
+                ret++;
+            }
+        }
+        return ret;
+    }
+
+    void GameClear()
+    {
+        GameObject.Find("ReStartButton").transform.position = new Vector3(245, 455, 0);
+        GameObject.Find("GameClearText").transform.position = new Vector3(350, 300, 0);
+    }
+
+    void RaiseFlag(GameObject tblock)
+    {
+        var B_cs = tblock.GetComponent<Block>();
+        B_cs.TileNumber += 100;
+        tblock.GetComponent<SpriteRenderer>().sprite = B_cs.tiles[10];
+    }
 }
