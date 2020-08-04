@@ -5,7 +5,28 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/start.unity
+    guid: 085c28463d8ec114ab1a3726e658988e
+  - enabled: 1
+    path: Assets/Scenes/main.unity
+    guid: d3bd2a61b9444ed43b453a0c97b36bea
+  - enabled: 1
+    path: Assets/Scenes/select.unity
+    guid: ced129914fa351744a8097cd46ff08f0
+  - enabled: 1
+    path: Assets/Scenes/main_tyukyu.unity
+    guid: 9cfaded5a8653c94682705118d047aa8
+  - enabled: 1
+    path: Assets/Scenes/main_syokyu.unity
+    guid: 94173df05c26dc14d929026c71698753
+  - enabled: 1
+    path: Assets/Scenes/main_jokyu.unity
+    guid: 49245d5ecda706c48b8bbe7b1263480c
+  - enabled: 1
+    path: Assets/Scenes/main_2020.unity
+    guid: 5f61cc81b47f53545a0b5228479d7193
   m_configObjects: {}

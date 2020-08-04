@@ -72,7 +72,9 @@ public class Manager : MonoBehaviour
                 if (B_cs.TileNumber == 9)
                 {
                     failed = true;
-                    GameObject.Find("ReStartButton").transform.position = new Vector3(245, 455, 0);
+                    GameObject.Find("ReStartButton").transform.position = new Vector3(1000, 455, 0);
+                    GameObject.Find("ReturnButton").transform.position = new Vector3(1000, 600, 0);
+
                 }
                 if (B_cs.TileNumber == 0)
                 {
@@ -268,8 +270,9 @@ public class Manager : MonoBehaviour
 
     void GameClear()
     {
-        GameObject.Find("ReStartButton").transform.position = new Vector3(245, 455, 0);
-        GameObject.Find("GameClearText").transform.position = new Vector3(350, 300, 0);
+        GameObject.Find("ReStartButton").transform.position = new Vector3(500, 455, 0);
+        GameObject.Find("GameClearText").transform.position = new Vector3(600, 300, 0);
+        GameObject.Find("ReturnButton").transform.position = new Vector3(500, 455, 0);
     }
 
     void RaiseFlag(GameObject tblock)
