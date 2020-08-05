@@ -38,4 +38,9 @@ public class ChangeScene : MonoBehaviour
         SceneManager.LoadScene("main_2020");
     }
 
+    public void OnClickTyosoku()
+    {
+        SceneManager.LoadScene("taiki_tyosoku");
+    }
+
 }

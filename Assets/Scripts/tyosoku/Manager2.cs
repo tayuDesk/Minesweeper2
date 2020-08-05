@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Manager : MonoBehaviour
+public class Manager2 : MonoBehaviour
 {
 
     public bool ClikedFIrst = false;
@@ -35,10 +35,10 @@ public class Manager : MonoBehaviour
         visited = new bool[HEIGHT * WIDTH];
         Init_Stage();
         AssignIndexAndNameToBlock();
-        
+
     }
 
-    
+
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
@@ -48,10 +48,10 @@ public class Manager : MonoBehaviour
 
             if (!ClikedFIrst && hit2d)
             {
-               
+
                 hit2d.transform.gameObject.GetComponent<Block>().TileNumber = 0;
                 int idx = hit2d.transform.gameObject.GetComponent<Block>().TileIndex;
-                
+
                 TilesNumber[idx] = 0;
 
 
@@ -63,8 +63,8 @@ public class Manager : MonoBehaviour
 
                 AssignTileNumberToBlock();
 
-                
-                
+
+
                 ClikedFIrst = true;
 
             }
@@ -72,7 +72,7 @@ public class Manager : MonoBehaviour
             {
                 GameObject tblock = hit2d.transform.gameObject;
                 var B_cs = tblock.GetComponent<Block>();
-                
+
 
 
 
@@ -248,7 +248,7 @@ public class Manager : MonoBehaviour
         }
         return false;
     }
-    
+
     void OpenAround(int idx)
     {
         GameObject.Find("Block" + idx.ToString()).GetComponent<Block>().IsOpend = true;
@@ -275,10 +275,10 @@ public class Manager : MonoBehaviour
 
             if (B_cs.TileNumber == 0)
             {
-                
+
                 OpenAround(ny * WIDTH + nx);
             }
-           
+
         }
     }
 

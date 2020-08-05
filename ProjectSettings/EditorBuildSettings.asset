@@ -29,4 +29,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/main_2020.unity
     guid: 5f61cc81b47f53545a0b5228479d7193
+  - enabled: 1
+    path: Assets/Scenes/main_tyosoku.unity
+    guid: c979e39a946c6c841b564dfe1ef41d99
+  - enabled: 1
+    path: Assets/Scenes/taiki_tyosoku.unity
+    guid: 21da943e1e424564583d02459262e38d
   m_configObjects: {}
