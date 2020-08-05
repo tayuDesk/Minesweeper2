@@ -14,7 +14,7 @@ public class PrefsTyosoku : MonoBehaviour
     public Text CountText = null;
     public int NowCount = 0;
 
-    public Manager2 M_cs;
+    public Manager M_cs;
 
     bool isCalledOnce = false;
     bool CanSave = true;
@@ -77,14 +77,14 @@ public class PrefsTyosoku : MonoBehaviour
 
     public void OnClickReturnButtonTyosoku()
     {
-        
+        CanSave = false;
         PlayerPrefs.DeleteAll();
         SceneManager.LoadScene("start");
     }
 
     public void OnClickResetPrefsButton()
     {
-        Debug.Log("aiueosarertta");
+        
         PlayerPrefs.DeleteKey("NOW_TIME");
         PlayerPrefs.DeleteKey("NOW_COUNT");
     }

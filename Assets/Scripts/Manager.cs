@@ -1,9 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Manager : MonoBehaviour
 {
+
+    int FlagCount = 0;
+    public Text FlagCountText;
 
     public bool ClikedFIrst = false;
     public bool GameIsOver = false;
@@ -31,7 +35,7 @@ public class Manager : MonoBehaviour
 
     void Start()
     {
-
+        FlagCount = BOMB_NUM;
         visited = new bool[HEIGHT * WIDTH];
         Init_Stage();
         AssignIndexAndNameToBlock();
@@ -41,6 +45,9 @@ public class Manager : MonoBehaviour
     
     void Update()
     {
+        FlagCountText.text = "爆弾残り: " + FlagCount.ToString() + "個";
+        
+
         if (Input.GetMouseButtonDown(0))
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -123,21 +130,21 @@ public class Manager : MonoBehaviour
 
             var B_cs = hit2d.transform.gameObject.GetComponent<Block>();
 
-            if (B_cs.TileNumber < 100)
+            if (!B_cs.IsOpend)
             {
-                RaiseFlag(hit2d.transform.gameObject);
-            }
-            else
-            {
-                if (!B_cs.IsOpend)
+
+                if (B_cs.TileNumber < 100)
                 {
-                    hit2d.transform.gameObject.GetComponent<SpriteRenderer>().sprite = B_cs.NowImage;
-                    B_cs.TileNumber -= 100;
+                    FlagCount--;
+                    RaiseFlag(hit2d.transform.gameObject);
                 }
                 else
                 {
+                    FlagCount++;
+                    
+                    hit2d.transform.gameObject.GetComponent<SpriteRenderer>().sprite = B_cs.NowImage;
                     B_cs.TileNumber -= 100;
-                    hit2d.transform.gameObject.GetComponent<SpriteRenderer>().sprite = B_cs.tiles[B_cs.TileNumber];
+                   
                 }
             }
         }

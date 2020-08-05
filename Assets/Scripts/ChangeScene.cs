@@ -43,4 +43,9 @@ public class ChangeScene : MonoBehaviour
         SceneManager.LoadScene("taiki_tyosoku");
     }
 
+    public void OnClickExplanation()
+    {
+        SceneManager.LoadScene("explanation");
+    }
+
 }

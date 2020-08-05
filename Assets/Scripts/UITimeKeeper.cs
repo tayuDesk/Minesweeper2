@@ -35,6 +35,6 @@ public class UITimeKeeper : MonoBehaviour
             NowTimeFloat += Time.deltaTime;
             NowTimeInt = (int)NowTimeFloat;
         }
-        GetComponent<Text>().text = NowTimeInt.ToString();
+        GetComponent<Text>().text = "TIME: " + NowTimeInt.ToString();
     }
 }

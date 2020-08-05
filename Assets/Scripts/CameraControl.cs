@@ -16,22 +16,22 @@ public class CameraControl : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.W))
+        if (Input.GetKeyDown(KeyCode.W) || Input.GetKey(KeyCode.W))
         {
             transform.position += new Vector3(0, MoveVelosity, 0);
         }
 
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.A) || Input.GetKey(KeyCode.A))
         {
             transform.position += new Vector3(-MoveVelosity, 0, 0);
         }
 
-        if (Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKeyDown(KeyCode.S) || Input.GetKey(KeyCode.S))
         {
             transform.position += new Vector3(0, -MoveVelosity, 0);
         }
 
-        if (Input.GetKeyDown(KeyCode.D))
+        if (Input.GetKeyDown(KeyCode.D) || Input.GetKey(KeyCode.D))
         {
             transform.position += new Vector3(MoveVelosity, 0, 0);
         }
